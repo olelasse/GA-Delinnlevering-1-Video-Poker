@@ -1,5 +1,9 @@
 import "./App.css";
 
 export default function App() {
-  return <></>;
+  return (
+    <>
+      <p>Hello</p>
+    </>
+  );
 }

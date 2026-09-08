@@ -1,0 +1,24 @@
+.header {
+  background-color: steelblue;
+  padding: 0.5rem;
+  border-bottom: 0.2rem solid darkblue;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+
+  nav {
+    display: flex;
+    a {
+      padding: 1rem 1.5rem;
+      border-right: 0.1rem solid darkblue;
+      &:global(.active) {
+        background-color: rgb(7, 121, 83);
+      }
+
+      &:hover {
+        background-color: darkkhaki;
+      }
+    }
+    align-items: normal;
+  }
+}
