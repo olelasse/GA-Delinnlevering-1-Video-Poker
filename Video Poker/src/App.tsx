@@ -2,8 +2,8 @@ import "./App.css";
 
 export default function App() {
   return (
-    <>
-      <p>Hello</p>
-    </>
+    <main>
+      <h2>Spill</h2>
+    </main>
   );
 }

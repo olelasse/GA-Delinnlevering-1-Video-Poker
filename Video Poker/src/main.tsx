@@ -5,6 +5,8 @@ import "./index.css";
 import App from "./App.tsx";
 import Header from "./components/Header/Header.tsx";
 import Rules from "./pages/Rules/Rules.tsx";
+import Footer from "./components/Footer/Footer.tsx";
+import Players from "./pages/Players/Players.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -13,8 +15,9 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/rules" element={<Rules />} />
-        <Route path="/players" element={<App />} />
+        <Route path="/players" element={<Players />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   </StrictMode>,
 );
