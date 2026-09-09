@@ -24,12 +24,12 @@ Du skal bruke React Router til å lage minst tre skjermbilder i appen din. Disse
 
 Du skal utforme alle delene av grensesnittet ditt som gjenbrukbare React-komponenter. Hvilke komponenter du trenger må du selv finne ut av, men du skal minst lage:
 
-- En spillekortkomponent kalt <Card>
-- En tabell med oversikt over gevinster og utbetalinger kalt <PayoutTable>
-- En teller der spillerens nåværende antall mynter vises, kalt <TotalCoins>
-- En visning av spillerens nåværende innsats, kalt <CurrentBet>
+- En spillekortkomponent kalt `<Card>`
+- En tabell med oversikt over gevinster og utbetalinger kalt `<PayoutTable>`
+- En teller der spillerens nåværende antall mynter vises, kalt `<TotalCoins>`
+- En visning av spillerens nåværende innsats, kalt `<CurrentBet>`
 - En visning av hvilken hånd brukeren sitter med akkurat nå (f.eks to par, tre like…). Denne visningen skal bruke en type kalt PokerHand som inneholder alle de forskjellige mulige pokerhendene man kan få i spillet.
-- En komponent for hele “spillbrettet” kalt <Game> der alle komponenter samles
+- En komponent for hele “spillbrettet” kalt `<Game>` der alle komponenter samles
 
 ## Spillkortkomponenten
 
