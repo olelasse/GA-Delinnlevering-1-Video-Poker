@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 type CoinType = {
     withdraw: boolean;
     amount: number;
