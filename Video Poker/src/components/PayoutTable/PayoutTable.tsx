@@ -1,5 +1,5 @@
 
-export type PokerHand = {
+export type PokerHand = 
   | "royal_flush"
   | "straight_flush"
   | "four_of_a_kind"
@@ -10,8 +10,7 @@ export type PokerHand = {
   | "two_pair"
   | "jacks_or_better"
   | "high_card";
-}
-
+  
 export type PayoutRule = {
   hand: PokerHand;
   name: string;
