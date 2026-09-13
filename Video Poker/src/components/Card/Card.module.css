@@ -1,0 +1,98 @@
+.card {
+  appearance: none;
+  font: inherit;
+  margin: 0;
+  outline: none;
+
+  width: 120px;
+  height: 170px;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  background-color: #ffffff;
+  padding: 8px;
+  box-sizing: border-box;
+
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: auto 1fr auto;
+  &:disabled {
+    cursor: default;
+  }
+  &:not(:disabled):hover {
+    transform: translateY(-4px);
+  }
+  &:focus-visible {
+    outline: 3px solid #2563eb;
+    outline-offset: 3px;
+  }
+}
+
+.red {
+  color: #d32f2f;
+}
+
+.black {
+  color: #212121;
+}
+
+.cornerTop {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  justify-items: center;
+  line-height: 1;
+  font-weight: bold;
+}
+
+.center {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 5rem;
+}
+
+.cornerBottom {
+  grid-column: 3;
+  grid-row: 3;
+  display: grid;
+  justify-items: center;
+  line-height: 1;
+  font-weight: bold;
+  transform: rotate(180deg);
+}
+
+.back {
+  border: 3px solid #ffffff;
+  background: repeating-linear-gradient(
+    45deg,
+    #1565c0,
+    #1565c0 10px,
+    #0d47a1 10px,
+    #0d47a1 20px
+  );
+}
+
+.held {
+  border: 2px solid #eab308;
+  transform: translateY(-8px);
+}
+
+.heldBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #eab308;
+  color: #000000;
+  font-size: 0.75rem;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
