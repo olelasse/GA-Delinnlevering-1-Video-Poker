@@ -3,9 +3,9 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
 import "./index.css";
 import App from "./App.tsx";
-import Header from "./components/Header/Header.tsx";
+import Header from "./pageparts/Header/Header.tsx";
 import Rules from "./pages/Rules/Rules.tsx";
-import Footer from "./components/Footer/Footer.tsx";
+import Footer from "./pageparts/Footer/Footer.tsx";
 import Players from "./pages/Players/Players.tsx";
 
 createRoot(document.getElementById("root")!).render(
