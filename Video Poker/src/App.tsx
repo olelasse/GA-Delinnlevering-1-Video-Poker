@@ -6,7 +6,7 @@ export default function App() {
     <main>
       <h2>Spill</h2>
 
-      <TotalCoins withdraw={20} />
+      <TotalCoins />
     </main>
   );
 }
