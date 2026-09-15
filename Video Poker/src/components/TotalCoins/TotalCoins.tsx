@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useGameStore } from "../../store/gameStore";
 
 export default function TotalCoins() {
+  const activePlayer = useGameStore((state) =>
+    state.players.find((p) => p.id === state.activePlayerId),
+  );
 
-    const [coins, setCoins] = useState(() => {
-        const storage = localStorage.getItem("videoPokerCoins");
-        return storage ? JSON.parse(storage) : (0);
-    });
-    
-    return (
-        <>
-            <span>Totalt mynter: {coins}</span>
-        </>
-    )
+  const coins = activePlayer ? activePlayer.coins : 0;
+
+  return (
+    <>
+      <span>Totalt mynter: {coins}</span>
+    </>
+  );
 }

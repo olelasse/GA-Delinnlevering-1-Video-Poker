@@ -71,7 +71,6 @@ export default function Card({
       aria-pressed={isHeld}
       aria-label={accessibleLabel}
     >
-      {/* Visuelle elementer skjules for skjermleser for å unngå gjentagelse */}
       <span className={styles.cornerTop} aria-hidden="true">
         <span>{displayValue}</span>
         <span>{symbol}</span>
