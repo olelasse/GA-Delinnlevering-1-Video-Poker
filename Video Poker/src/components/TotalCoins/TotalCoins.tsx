@@ -1,5 +1,9 @@
 import { useGameStore } from "../../store/gameStore";
 
+/**
+ *
+ * @returns Et span element med formatert myntsaldo
+ */
 export default function TotalCoins() {
   const activePlayer = useGameStore((state) =>
     state.players.find((p) => p.id === state.activePlayerId),

@@ -20,6 +20,9 @@ interface GameState {
   setHand: (hand: PlayingCard[]) => void;
 }
 
+/**
+ * Global zustand const, for tilstandshåndtering med persist for lagring i localstorage
+ */
 export const useGameStore = create<GameState>()(
   persist(
     (set, get) => ({

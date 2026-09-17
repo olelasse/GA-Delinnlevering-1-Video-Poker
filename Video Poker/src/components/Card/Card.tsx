@@ -12,6 +12,11 @@ type CardProps = {
   onToggleHold?: () => void;
 };
 
+/**
+ *
+ * @param value Kortets tallverdi fra 2 til 14
+ * @returns Visningsverdi som tekststreng (f.eks. 'J', 'Q', 'K', 'A' eller tall)
+ */
 function formatCardValue(value: CardValue): string {
   switch (value) {
     case 11:
@@ -27,6 +32,11 @@ function formatCardValue(value: CardValue): string {
   }
 }
 
+/**
+ *
+ * @param suit Kortfargen (hearts, diamonds, clubs, spades)
+ * @returns Tegn som representerer fargen
+ */
 function getSuitSymbol(suit: CardSuits): string {
   switch (suit) {
     case "hearts":
@@ -40,6 +50,11 @@ function getSuitSymbol(suit: CardSuits): string {
   }
 }
 
+/**
+ *
+ * @param props Egenskaper for kortet, visningsstatus og event-handler for klikk
+ * @returns Et spillekort som et knappelement, eller en bakside som div
+ */
 export default function Card({
   card,
   faceUp = !!card,

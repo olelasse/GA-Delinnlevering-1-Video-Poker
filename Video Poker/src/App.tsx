@@ -4,6 +4,8 @@ import Card from "./components/Card/Card.tsx";
 import TotalCoins from "./components/TotalCoins/TotalCoins.tsx";
 import type { PlayingCard } from "./types/playingcard.ts";
 
+import "./utils/deck.ts"; // Test av stokking!
+
 const INITIAL_HAND: PlayingCard[] = [
   { suit: "hearts", value: 14 },
   { suit: "spades", value: 13 },
