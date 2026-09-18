@@ -5,6 +5,7 @@ import TotalCoins from "./components/TotalCoins/TotalCoins.tsx";
 import type { PlayingCard } from "./types/playingcard.ts";
 
 import "./utils/deck.ts"; // Test av stokking!
+import Game from "./components/Game/Game.tsx";
 
 const INITIAL_HAND: PlayingCard[] = [
   { suit: "hearts", value: 14 },
@@ -73,6 +74,8 @@ export default function App() {
       </section>
 
       <p>Holdte kort-indekser: {heldCards.join(", ") || "Ingen"}</p>
+
+      <Game />
     </main>
   );
 }
