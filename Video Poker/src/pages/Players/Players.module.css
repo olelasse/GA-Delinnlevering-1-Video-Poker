@@ -8,23 +8,24 @@
 }
 
 .title {
-  color: #ffffff;
+  color: var(--color-text-main);
   font-size: 1.8rem;
   margin: 0;
 }
 
 .section {
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-accent);
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
 .sectionTitle {
-  color: #111827;
+  color: var(--color-header-bg);
   font-size: 1.25rem;
   margin: 0;
 }
@@ -36,7 +37,7 @@
 }
 
 .label {
-  color: #374151;
+  color: var(--color-text-dark);
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -47,21 +48,21 @@
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 1rem;
-  color: #111827;
+  color: var(--color-text-dark);
   background-color: #ffffff;
   box-sizing: border-box;
 }
 
 .input:focus {
-  outline: 2px solid #2563eb;
-  border-color: #2563eb;
+  outline: 2px solid var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .submitBtn {
   width: 100%;
   padding: 0.85rem;
-  background-color: #2563eb;
-  color: #ffffff;
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
   font-size: 1rem;
   font-weight: 700;
   border: none;
@@ -71,7 +72,7 @@
 }
 
 .submitBtn:hover {
-  background-color: #1d4ed8;
+  background-color: var(--color-accent-hover);
 }
 
 .list {
@@ -100,8 +101,8 @@
 }
 
 .playerCard.active {
-  border-color: #2563eb;
-  background-color: #eff6ff;
+  border-color: var(--color-accent);
+  background-color: var(--color-highlight);
 }
 
 .playerInfo {
@@ -112,7 +113,7 @@
 }
 
 .playerName {
-  color: #111827;
+  color: var(--color-text-dark);
   font-size: 1.1rem;
   font-weight: 700;
 }
@@ -131,19 +132,19 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  border: 1px solid #2563eb;
+  border: 1px solid var(--color-header-bg);
   background-color: #ffffff;
-  color: #2563eb;
+  color: var(--color-header-bg);
   transition: all 0.15s ease;
 }
 
 .selectBtn:hover:not(:disabled) {
-  background-color: #eff6ff;
+  background-color: var(--color-highlight);
 }
 
 .selectBtn:disabled {
-  background-color: #2563eb;
-  color: #ffffff;
-  border-color: #2563eb;
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
+  border-color: var(--color-accent);
   cursor: default;
 }
