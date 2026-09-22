@@ -3,7 +3,7 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--color-text-dark);
 }
 
 .container label {
@@ -15,9 +15,13 @@
   border-radius: 6px;
   border: 1px solid #d1d5db;
   font-size: 1rem;
-  background-color: #ffffff;
-  color: #111827;
+  background-color: var(--color-surface);
+  color: var(--color-text-dark);
   cursor: pointer;
+}
+
+.container select:focus {
+  outline: 2px solid var(--color-accent);
 }
 
 .container select:disabled {

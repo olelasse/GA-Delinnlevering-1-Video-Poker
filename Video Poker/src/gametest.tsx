@@ -1,119 +1,128 @@
-.container {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 1.5rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: center;
-}
+import { useState } from "react";
+import { useGameStore } from "../../store/gameStore";
+import Card from "../Card/Card";
+import CurrentBet from "../CurrentBet/CurrentBet";
+import HandDisplay from "../HandDisplay/HandDisplay";
+import PayoutTable from "../PayoutTable/PayoutTable";
+import styles from "./Game.module.css";
 
-.gameHeading {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
+/**
+ * Arkadeinspirert spillbrett for Video Poker med kabinett-layout og fysiske kontroller.
+ *
+ * @returns Komplett spillvisning utformet som en klassisk kasinoautomat.
+ */
+export default function Game() {
+  const [showPayoutTable, setShowPayoutTable] = useState<boolean>(true);
 
-.topBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  background-color: #ffffff;
-  color: #111827;
-  padding: 0.75rem 1.25rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
+  const phase = useGameStore((state) => state.phase);
+  const hand = useGameStore((state) => state.hand);
+  const heldCards = useGameStore((state) => state.heldCards);
+  const currentBet = useGameStore((state) => state.currentBet);
+  const startRound = useGameStore((state) => state.startRound);
+  const drawCards = useGameStore((state) => state.drawCards);
+  const resetRound = useGameStore((state) => state.resetRound);
+  const toggleHoldCard = useGameStore((state) => state.toggleHoldCard);
+  const lastResult = useGameStore((state) => state.lastResult);
+  const winAmount = useGameStore((state) => state.winAmount);
 
-.topBarActions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
+  const activePlayer = useGameStore((state) =>
+    state.players.find((p) => p.id === state.activePlayerId),
+  );
 
-.toggleTableBtn {
-  background-color: #004879;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  padding: 0.45rem 0.9rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
+  const handleAction = () => {
+    if (phase === "betting") {
+      startRound();
+    } else if (phase === "holding") {
+      drawCards();
+    } else if (phase === "finished") {
+      resetRound();
+    }
+  };
 
-.toggleTableBtn:hover {
-  background-color: #003254;
-}
+  const canPlay = activePlayer && activePlayer.coins >= currentBet;
 
-.tableDrawer {
-  width: 100%;
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+  return (
+    <div className={styles.cabinet}>
+      <main className={styles.screen}>
+        <div className={styles.screenHeader}>
+          <CurrentBet />
+          <button
+            type="button"
+            className={styles.toggleTableBtn}
+            onClick={() => setShowPayoutTable((prev) => !prev)}
+            aria-expanded={showPayoutTable}
+          >
+            {showPayoutTable ? "SKJUL TABELL" : "VIS TABELL"}
+          </button>
+        </div>
 
-.tableDrawerOpen {
-  grid-template-rows: 1fr;
-}
+        <div
+          className={`${styles.tableDrawer} ${showPayoutTable ? styles.tableDrawerOpen : ""}`}
+        >
+          <div className={styles.drawerInner}>
+            <PayoutTable
+              currentBet={currentBet}
+              activeHand={
+                phase === "finished" && lastResult ? lastResult.rank : null
+              }
+            />
+          </div>
+        </div>
 
-.drawerInner {
-  overflow: hidden;
-  width: 100%;
-}
+        {!activePlayer ? (
+          <p className={styles.betDisplay}>VELG SPILLER UNDER SPILLERE</p>
+        ) : (
+          <>
+            <section aria-label="Kort på hånden" className={styles.handSection}>
+              <div className={styles.cardGrid}>
+                {phase === "betting"
+                  ? Array.from({ length: 5 }).map((_, index) => (
+                      <Card key={index} faceUp={false} />
+                    ))
+                  : hand.map((card, index) => (
+                      <Card
+                        key={`${card.suit}-${card.value}-${index}`}
+                        card={card}
+                        faceUp={true}
+                        isHeld={heldCards.includes(index)}
+                        onToggleHold={
+                          phase === "holding"
+                            ? () => toggleHoldCard(index)
+                            : undefined
+                        }
+                      />
+                    ))}
+              </div>
+            </section>
 
-.notice {
-  background-color: #ffffff;
-  color: #b91c1c;
-  padding: 1rem;
-  border-radius: 8px;
-  font-weight: 600;
-}
+            {phase === "finished" && lastResult && (
+              <HandDisplay rank={lastResult.rank} winAmount={winAmount} />
+            )}
 
-.handSection {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
+            <div className={styles.statusLedBar}>
+              <span className={styles.betDisplay}>BET {currentBet}</span>
+              <span className={styles.creditsDisplay}>
+                CREDITS {activePlayer.coins}
+              </span>
+            </div>
+          </>
+        )}
+      </main>
 
-.cardGrid {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.controls {
-  display: flex;
-  gap: 1rem;
-}
-
-.primaryButton {
-  padding: 0.85rem 2.8rem;
-  background-color: #0f2b6b;
-  color: #ffffff;
-  font-size: 1.15rem;
-  font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.15s ease, transform 0.1s ease;
-}
-
-.primaryButton:hover:not(:disabled) {
-  background-color: #1a1a5e;
-  transform: translateY(-1px);
-}
-
-.primaryButton:disabled {
-  background-color: #6b7280;
-  cursor: not-allowed;
-  box-shadow: none;
+      {activePlayer && (
+        <div className={styles.physicalControls}>
+          <button
+            type="button"
+            className={styles.arcadeButton}
+            onClick={handleAction}
+            disabled={phase === "betting" && !canPlay}
+          >
+            {phase === "betting" && "DEAL"}
+            {phase === "holding" && "DRAW"}
+            {phase === "finished" && "NEW ROUND"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }

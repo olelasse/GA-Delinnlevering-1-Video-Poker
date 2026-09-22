@@ -1,10 +1,9 @@
 footer {
-  /*position: sticky;
-  bottom: 0;
-  width: 100%;*/
-  background-color: #1a3589;
+  background-color: var(--color-header-bg);
+  color: var(--color-text-main);
   text-align: center;
   padding: 1rem 0;
-  /*margin-top: auto;*/
-  /*border-top: 1px solid black;*/
+  margin-top: auto;
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
 }

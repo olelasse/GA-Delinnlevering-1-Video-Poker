@@ -1,7 +1,8 @@
 .header {
-  background-color: #1a3589;
+  background-color: var(--color-header-bg);
+  color: var(--color-text-main);
   padding: 0.5rem;
-  border-bottom: 0.15rem solid #1f176f;
+  border-bottom: 0.125rem solid var(--color-accent);
   margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
@@ -10,17 +11,22 @@
   nav {
     display: flex;
     a {
+      color: var(--color-text-main);
       padding: 1rem 1.5rem;
-      border-right: 0.1rem solid #1f176f;
+      border-right: 0.1rem solid var(--color-accent);
       text-decoration: none;
-      color: #ffffff;
+      font-weight: 600;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
 
       &:global(.active) {
-        background-color: #1f176f;
+        background-color: var(--color-accent);
+        color: var(--color-text-dark);
       }
 
       &:hover {
-        background-color: #afaccc;
+        background-color: rgba(255, 255, 255, 0.1);
         text-decoration: underline;
         color: #000000;
       }

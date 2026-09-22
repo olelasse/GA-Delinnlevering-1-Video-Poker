@@ -1,5 +1,5 @@
 .container {
-  max-width: 800px;
+  max-width: 54rem;
   margin: 0 auto;
   padding: 1.5rem 1rem;
   display: flex;
@@ -11,7 +11,7 @@
 .gameHeading {
   font-size: 2rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-text-main);
   margin: 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
@@ -21,11 +21,12 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: #ffffff;
-  color: #111827;
+  background-color: var(--color-surface);
+  color: var(--color-text-dark);
   padding: 0.75rem 1.25rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-accent);
   flex-wrap: wrap;
   gap: 0.75rem;
 }
@@ -37,9 +38,9 @@
 }
 
 .toggleTableBtn {
-  background-color: #004879;
-  color: #ffffff;
-  border: none;
+  background-color: var(--color-header-bg);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
   border-radius: 6px;
   padding: 0.45rem 0.9rem;
   font-size: 0.9rem;
@@ -51,7 +52,8 @@
 }
 
 .toggleTableBtn:hover {
-  background-color: #003254;
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
 }
 
 .tableDrawer {
@@ -71,7 +73,7 @@
 }
 
 .notice {
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   color: #b91c1c;
   padding: 1rem;
   border-radius: 8px;
@@ -98,8 +100,8 @@
 
 .primaryButton {
   padding: 0.85rem 2.5rem;
-  background-color: #2563eb;
-  color: #ffffff;
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
   font-size: 1.1rem;
   font-weight: 700;
   border: none;
@@ -109,10 +111,12 @@
 }
 
 .primaryButton:hover:not(:disabled) {
-  background-color: #1d4ed8;
+  background-color: var(--color-accent-hover);
+  transform: translateY(-1px);
 }
 
 .primaryButton:disabled {
-  background-color: #9ca3af;
+  background-color: #4b5563;
+  color: #9ca3af;
   cursor: not-allowed;
 }

@@ -1,10 +1,11 @@
 .tableWrapper {
   width: 100%;
   overflow-x: auto;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 1.5rem;
+  border: 1px solid var(--color-accent);
 }
 
 .table {
@@ -12,7 +13,7 @@
   border-collapse: collapse;
   text-align: right;
   font-size: 0.85rem;
-  color: #111827;
+  color: var(--color-text-dark);
 }
 
 .table th,
@@ -28,17 +29,18 @@
 }
 
 .activeColumn {
-  background-color: #eff6ff;
-  color: #1d4ed8;
+  background-color: var(--color-highlight);
+  color: var(--color-header-bg);
   font-weight: 700;
 }
 
 .activeRow {
-  background-color: #fef08a;
-  color: #854d0e;
+  background-color: #fde68a;
+  color: #78350f;
   font-weight: 700;
 }
 
 .activeRow .activeColumn {
-  background-color: #fde047;
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
 }
