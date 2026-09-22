@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.container label {
+  font-size: 0.95rem;
+}
+
+.container select {
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #111827;
+  cursor: pointer;
+}
+
+.container select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

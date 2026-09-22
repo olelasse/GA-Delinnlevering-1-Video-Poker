@@ -1,155 +1,119 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import type { Player } from "../types/player";
-import type { PlayingCard } from "../types/playingcard";
-import { createDeck, shuffleDeck } from "../utils/deck";
-import { evaluatePokerHand, type EvaluationResult } from "../utils/pokerHand";
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
 
-export type GamePhase = "betting" | "holding" | "finished";
+.gameHeading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
 
-export type GameState = {
-  players: Player[];
-  activePlayerId: string | null;
-  phase: GamePhase;
-  deck: PlayingCard[];
-  hand: PlayingCard[];
-  discardedCards: PlayingCard[];
-  currentBet: number;
-  lastResult: EvaluationResult | null;
-  winAmount: number;
-  createPlayer: (name: string) => void;
-  setActivePlayer: (id: string) => void;
-  updateCoins: (amount: number) => void;
-  setCurrentBet: (bet: number) => void;
-  startRound: () => void;
-  drawCards: (heldIndices: number[]) => void;
-  resetRound: () => void;
-};
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #ffffff;
+  color: #111827;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
 
-/**
- * Global tilstandshåndtering for Video Poker via Zustand med persist-middleware.
- *
- * @returns Hook for å hente og oppdatere spillstatus, spillere, saldo og runder.
- */
-export const useGameStore = create<GameState>()(
-  persist(
-    (set, get) => ({
-      players: [],
-      activePlayerId: null,
-      phase: "betting",
-      deck: [],
-      hand: [],
-      discardedCards: [],
-      currentBet: 1,
-      lastResult: null,
-      winAmount: 0,
+.topBarActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
-      createPlayer: (name: string) => {
-        const trimmedName = name.trim();
-        if (!trimmedName) return;
+.toggleTableBtn {
+  background-color: #004879;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
 
-        const newPlayer: Player = {
-          id: crypto.randomUUID(),
-          name: trimmedName,
-          coins: 100,
-        };
+.toggleTableBtn:hover {
+  background-color: #003254;
+}
 
-        set((state) => ({
-          players: [...state.players, newPlayer],
-          activePlayerId: state.activePlayerId ?? newPlayer.id,
-        }));
-      },
+.tableDrawer {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-      setActivePlayer: (id: string) => {
-        set({ activePlayerId: id });
-      },
+.tableDrawerOpen {
+  grid-template-rows: 1fr;
+}
 
-      updateCoins: (amount: number) => {
-        const { activePlayerId, players } = get();
-        if (!activePlayerId) return;
+.drawerInner {
+  overflow: hidden;
+  width: 100%;
+}
 
-        set({
-          players: players.map((player) =>
-            player.id === activePlayerId
-              ? { ...player, coins: Math.max(0, player.coins + amount) }
-              : player,
-          ),
-        });
-      },
+.notice {
+  background-color: #ffffff;
+  color: #b91c1c;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
 
-      setCurrentBet: (currentBet: number) => {
-        set({ currentBet });
-      },
+.handSection {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
-      startRound: () => {
-        const { activePlayerId, players, currentBet, updateCoins } = get();
-        if (!activePlayerId) return;
+.cardGrid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-        const activePlayer = players.find((p) => p.id === activePlayerId);
-        if (!activePlayer || activePlayer.coins < currentBet) return;
+.controls {
+  display: flex;
+  gap: 1rem;
+}
 
-        updateCoins(-currentBet);
+.primaryButton {
+  padding: 0.85rem 2.8rem;
+  background-color: #0f2b6b;
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
 
-        const freshDeck = shuffleDeck(createDeck());
-        const initialHand = freshDeck.slice(0, 5);
-        const remainingDeck = freshDeck.slice(5);
+.primaryButton:hover:not(:disabled) {
+  background-color: #1a1a5e;
+  transform: translateY(-1px);
+}
 
-        set({
-          phase: "holding",
-          hand: initialHand,
-          deck: remainingDeck,
-          discardedCards: [],
-          lastResult: null,
-          winAmount: 0,
-        });
-      },
-
-      drawCards: (heldIndices: number[]) => {
-        const { hand, deck, discardedCards, currentBet, updateCoins } = get();
-
-        const newlyDiscarded: PlayingCard[] = [];
-        let nextDeckIndex = 0;
-
-        const finalHand = hand.map((card, index) => {
-          if (heldIndices.includes(index)) {
-            return card;
-          }
-          newlyDiscarded.push(card);
-          const replacement = deck[nextDeckIndex];
-          nextDeckIndex++;
-          return replacement;
-        });
-
-        const remainingDeck = deck.slice(nextDeckIndex);
-        const result = evaluatePokerHand(finalHand);
-        const won = currentBet * result.multiplier;
-
-        if (won > 0) {
-          updateCoins(won);
-        }
-
-        set({
-          phase: "finished",
-          hand: finalHand,
-          deck: remainingDeck,
-          discardedCards: [...discardedCards, ...newlyDiscarded],
-          lastResult: result,
-          winAmount: won,
-        });
-      },
-
-      resetRound: () => {
-        set({
-          phase: "betting",
-          hand: [],
-          discardedCards: [],
-          lastResult: null,
-          winAmount: 0,
-        });
-      },
-    }),
-    {
-      name: "video-poker-storage",
-    },
-  ),
-);
+.primaryButton:disabled {
+  background-color: #6b7280;
+  cursor: not-allowed;
+  box-shadow: none;
+}

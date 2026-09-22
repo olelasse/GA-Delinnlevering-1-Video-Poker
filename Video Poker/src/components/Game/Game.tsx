@@ -2,21 +2,27 @@ import { useState } from "react";
 import { useGameStore } from "../../store/gameStore";
 import Card from "../Card/Card";
 import TotalCoins from "../TotalCoins/TotalCoins";
+import CurrentBet from "../CurrentBet/CurrentBet";
+import HandDisplay from "../HandDisplay/HandDisplay";
+import PayoutTable from "../PayoutTable/PayoutTable";
 import styles from "./Game.module.css";
 
 /**
  * Hovedkomponent for spillbrettet, som håndterer innsats, utdeling, hold av kort og trekk-fase.
  *
- * @returns Spillvisning for ruten / (eller spill-seksjonen).
+ * @returns Spillgrensesnittet for Video Poker.
  */
 export default function Game() {
+  const [showPayoutTable, setShowPayoutTable] = useState<boolean>(false);
+
   const phase = useGameStore((state) => state.phase);
   const hand = useGameStore((state) => state.hand);
+  const heldCards = useGameStore((state) => state.heldCards);
   const currentBet = useGameStore((state) => state.currentBet);
-  const setCurrentBet = useGameStore((state) => state.setCurrentBet);
   const startRound = useGameStore((state) => state.startRound);
   const drawCards = useGameStore((state) => state.drawCards);
   const resetRound = useGameStore((state) => state.resetRound);
+  const toggleHoldCard = useGameStore((state) => state.toggleHoldCard);
   const lastResult = useGameStore((state) => state.lastResult);
   const winAmount = useGameStore((state) => state.winAmount);
 
@@ -24,23 +30,12 @@ export default function Game() {
     state.players.find((p) => p.id === state.activePlayerId),
   );
 
-  const [heldCards, setHeldCards] = useState<number[]>([]);
-
-  const toggleHold = (index: number) => {
-    if (phase !== "holding") return;
-    setHeldCards((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
-    );
-  };
-
   const handleAction = () => {
     if (phase === "betting") {
-      setHeldCards([]);
       startRound();
     } else if (phase === "holding") {
-      drawCards(heldCards);
+      drawCards();
     } else if (phase === "finished") {
-      setHeldCards([]);
       resetRound();
     }
   };
@@ -49,25 +44,35 @@ export default function Game() {
 
   return (
     <main className={styles.container}>
-      <h2>Video Poker</h2>
+      <h2 className={styles.gameHeading}>Video Poker</h2>
 
       <div className={styles.topBar}>
         <TotalCoins />
-
-        <div className={styles.betControl}>
-          <label htmlFor="bet-select">Innsats:</label>
-          <select
-            id="bet-select"
-            value={currentBet}
-            disabled={phase !== "betting"}
-            onChange={(e) => setCurrentBet(Number(e.target.value))}
+        <div className={styles.topBarActions}>
+          <CurrentBet />
+          <button
+            type="button"
+            className={styles.toggleTableBtn}
+            onClick={() => setShowPayoutTable((prev) => !prev)}
+            aria-expanded={showPayoutTable}
+            aria-controls="payout-table-collapse"
           >
-            {[1, 2, 3, 4, 5].map((amount) => (
-              <option key={amount} value={amount}>
-                {amount}
-              </option>
-            ))}
-          </select>
+            {showPayoutTable ? "Skjul premier" : "Se premier"}
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="payout-table-collapse"
+        className={`${styles.tableDrawer} ${showPayoutTable ? styles.tableDrawerOpen : ""}`}
+      >
+        <div className={styles.drawerInner}>
+          <PayoutTable
+            currentBet={currentBet}
+            activeHand={
+              phase === "finished" && lastResult ? lastResult.rank : null
+            }
+          />
         </div>
       </div>
 
@@ -91,7 +96,7 @@ export default function Game() {
                       isHeld={heldCards.includes(index)}
                       onToggleHold={
                         phase === "holding"
-                          ? () => toggleHold(index)
+                          ? () => toggleHoldCard(index)
                           : undefined
                       }
                     />
@@ -100,14 +105,7 @@ export default function Game() {
           </section>
 
           {phase === "finished" && lastResult && (
-            <div className={styles.resultBanner}>
-              <h3>{lastResult.name}</h3>
-              <p>
-                {winAmount > 0
-                  ? `Gratulerer! Du vant ${winAmount} mynter.`
-                  : "Ingen gevinst denne runden."}
-              </p>
-            </div>
+            <HandDisplay rank={lastResult.rank} winAmount={winAmount} />
           )}
 
           <div className={styles.controls}>

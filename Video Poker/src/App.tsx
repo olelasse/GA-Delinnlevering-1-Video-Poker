@@ -36,45 +36,6 @@ export default function App() {
     >
       <h2>Spill</h2>
 
-      <TotalCoins />
-
-      <div>
-        <button
-          type="button"
-          onClick={() => setIsFaceUp((prev) => !prev)}
-          style={{
-            padding: "8px 16px",
-            cursor: "pointer",
-            marginBottom: "1rem",
-          }}
-        >
-          Snu kort ({isFaceUp ? "Vis bakside" : "Vis forside"})
-        </button>
-      </div>
-
-      <section aria-label="Spillerens hånd">
-        <div
-          style={{
-            display: "flex",
-            gap: "1rem",
-            flexWrap: "wrap",
-            alignItems: "center",
-          }}
-        >
-          {INITIAL_HAND.map((card, index) => (
-            <Card
-              key={`${card.suit}-${card.value}-${index}`}
-              card={card}
-              faceUp={isFaceUp}
-              isHeld={heldCards.includes(index)}
-              onToggleHold={() => toggleHold(index)}
-            />
-          ))}
-        </div>
-      </section>
-
-      <p>Holdte kort-indekser: {heldCards.join(", ") || "Ingen"}</p>
-
       <Game />
     </main>
   );

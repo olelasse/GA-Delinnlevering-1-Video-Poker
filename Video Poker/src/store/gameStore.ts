@@ -15,6 +15,7 @@ export type GameState = {
   deck: PlayingCard[];
   hand: PlayingCard[];
   discardedCards: PlayingCard[];
+  heldCards: number[];
   currentBet: number;
   lastResult: EvaluationResult | null;
   winAmount: number;
@@ -24,8 +25,9 @@ export type GameState = {
   updateCoins: (amount: number) => void;
 
   setCurrentBet: (bet: number) => void;
+  toggleHoldCard: (index: number) => void;
   startRound: () => void;
-  drawCards: (heldIndices: number[]) => void;
+  drawCards: () => void;
   resetRound: () => void;
 };
 
@@ -43,6 +45,7 @@ export const useGameStore = create<GameState>()(
       deck: [],
       hand: [],
       discardedCards: [],
+      heldCards: [],
       currentBet: 1,
       lastResult: null,
       winAmount: 0,
@@ -84,6 +87,17 @@ export const useGameStore = create<GameState>()(
         set({ currentBet });
       },
 
+      toggleHoldCard: (index: number) => {
+        const { phase, heldCards } = get();
+        if (phase !== "holding") return;
+
+        set({
+          heldCards: heldCards.includes(index)
+            ? heldCards.filter((i) => i !== index)
+            : [...heldCards, index],
+        });
+      },
+
       startRound: () => {
         const { activePlayerId, players, currentBet, updateCoins } = get();
         if (!activePlayerId) return;
@@ -102,19 +116,27 @@ export const useGameStore = create<GameState>()(
           hand: initialHand,
           deck: remainingDeck,
           discardedCards: [],
+          heldCards: [],
           lastResult: null,
           winAmount: 0,
         });
       },
 
-      drawCards: (heldIndices: number[]) => {
-        const { hand, deck, discardedCards, currentBet, updateCoins } = get();
+      drawCards: () => {
+        const {
+          hand,
+          deck,
+          discardedCards,
+          heldCards,
+          currentBet,
+          updateCoins,
+        } = get();
 
         const newlyDiscarded: PlayingCard[] = [];
         let nextDeckIndex = 0;
 
         const finalHand = hand.map((card, index) => {
-          if (heldIndices.includes(index)) {
+          if (heldCards.includes(index)) {
             return card;
           }
           newlyDiscarded.push(card);
@@ -146,6 +168,7 @@ export const useGameStore = create<GameState>()(
           phase: "betting",
           hand: [],
           discardedCards: [],
+          heldCards: [],
           lastResult: null,
           winAmount: 0,
         });

@@ -1,39 +1,68 @@
-import type { PayoutRule } from "../../types/pokerhand";
+import { PAYOUT_RULES } from "../../data/rules";
+import type { PokerHand } from "../../types/pokerhand";
+import styles from "./PayoutTable.module.css";
 
-export const PAYOUT_RULES: PayoutRule[] = [
-  { hand: "royal_flush", name: "Royal Flush", multiplier: 250 },
-  { hand: "straight_flush", name: "Straight Flush", multiplier: 50 },
-  { hand: "four_of_a_kind", name: "Fire like", multiplier: 25 },
-  { hand: "full_house", name: "Hus", multiplier: 10 },
-  { hand: "flush", name: "Flush", multiplier: 5 },
-  { hand: "straight", name: "Straight", multiplier: 3 },
-  { hand: "three_of_a_kind", name: "Tre like", multiplier: 2 },
-  { hand: "two_pair", name: "To par", multiplier: 1 },
-  {
-    hand: "jacks_or_better",
-    name: "Et par (knekt eller høyere)",
-    multiplier: 0,
-  },
-  { hand: "high_card", name: "Høyt kort", multiplier: 0 },
-];
+type PayoutTableProps = {
+  currentBet?: number;
+  activeHand?: PokerHand | null;
+};
+/**
+ *
+ * @param props Valgfri hånd og innsats for visuell visning
+ * @returns HTML-tabell over spillets utbetalingsstruktur
+ */
+export default function PayoutTable({
+  currentBet = 1,
+  activeHand = null,
+}: PayoutTableProps) {
+  const betLevels = [1, 2, 3, 4, 5];
 
-export default function PayoutTable() {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Type hånd</th>
-          <th>Multiplikator</th>
-        </tr>
-      </thead>
-      <tbody>
-        {PAYOUT_RULES.map((rule) => (
-          <tr key={rule.hand}>
-            <td>{rule.name}</td>
-            <td>{rule.multiplier}</td>
+    <div className={styles.tableWrapper}>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th scope="col" className={styles.handHeader}>
+              Hånd
+            </th>
+            {betLevels.map((bet) => (
+              <th
+                key={bet}
+                scope="col"
+                className={currentBet === bet ? styles.activeColumn : undefined}
+              >
+                {bet} {bet === 1 ? "mynt" : "mynter"}
+              </th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {PAYOUT_RULES.map((rule) => {
+            const isRowActive = activeHand === rule.hand;
+
+            return (
+              <tr
+                key={rule.hand}
+                className={isRowActive ? styles.activeRow : undefined}
+              >
+                <th scope="row" className={styles.handName}>
+                  {rule.name}
+                </th>
+                {betLevels.map((bet) => (
+                  <td
+                    key={bet}
+                    className={
+                      currentBet === bet ? styles.activeColumn : undefined
+                    }
+                  >
+                    {rule.multiplier * bet}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }
