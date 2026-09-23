@@ -34,8 +34,6 @@ export default function App() {
         gap: "1.5rem",
       }}
     >
-      <h2>Spill</h2>
-
       <Game />
     </main>
   );
