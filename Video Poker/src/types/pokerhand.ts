@@ -18,6 +18,5 @@ export type PayoutRule = {
 
 export type EvaluationResult = {
   rank: PokerHand;
-  name: string;
   multiplier: number;
 };

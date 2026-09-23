@@ -1,5 +1,26 @@
 import type { PlayingCard } from "../types/playingcard";
-import type { EvaluationResult } from "../types/pokerhand";
+import type { EvaluationResult, PokerHand } from "../types/pokerhand";
+import { PAYOUT_RULES } from "../data/rules";
+
+/**
+ *
+ * @param rank Vis resultat ut fra poker hånd
+ * @returns En hjelpefunksjon, som bygges basert på reglene
+ */
+function createResult(rank: PokerHand): EvaluationResult {
+  const rule = PAYOUT_RULES.find((r) => r.hand === rank);
+  if (rule) {
+    return {
+      rank,
+      multiplier: rule.multiplier,
+    };
+  }
+
+  return {
+    rank: "high_card",
+    multiplier: 0,
+  };
+}
 
 /**
  * Evaluerer en femkorts pokerhånd og returnerer rangering, visningsnavn og utbetalingsmultiplikator.
@@ -9,7 +30,7 @@ import type { EvaluationResult } from "../types/pokerhand";
  */
 export function evaluatePokerHand(hand: PlayingCard[]): EvaluationResult {
   if (hand.length !== 5) {
-    return { rank: "high_card", name: "High Card", multiplier: 0 };
+    return createResult("high_card");
   }
 
   const values = hand.map((c) => c.value).sort((a, b) => a - b);
@@ -38,44 +59,45 @@ export function evaluatePokerHand(hand: PlayingCard[]): EvaluationResult {
   const frequencies = Object.values(counts).sort((a, b) => b - a);
 
   if (isFlush && isStraight && values[0] === 10 && values[4] === 14) {
-    return { rank: "royal_flush", name: "Royal Flush", multiplier: 250 };
+    return createResult("royal_flush");
   }
 
   if (isFlush && isStraight) {
-    return { rank: "straight_flush", name: "Straight Flush", multiplier: 50 };
+    return createResult("straight_flush");
   }
 
   if (frequencies[0] === 4) {
-    return { rank: "four_of_a_kind", name: "Four of a Kind", multiplier: 25 };
+    return createResult("four_of_a_kind");
   }
 
   if (frequencies[0] === 3 && frequencies[1] === 2) {
-    return { rank: "full_house", name: "Full House", multiplier: 9 };
+    return createResult("full_house");
   }
 
   if (isFlush) {
-    return { rank: "flush", name: "Flush", multiplier: 6 };
+    return createResult("flush");
   }
 
   if (isStraight) {
-    return { rank: "straight", name: "Straight", multiplier: 4 };
+    return createResult("straight");
   }
 
   if (frequencies[0] === 3) {
-    return { rank: "three_of_a_kind", name: "Three of a Kind", multiplier: 3 };
+    return createResult("three_of_a_kind");
   }
 
   if (frequencies[0] === 2 && frequencies[1] === 2) {
-    return { rank: "two_pair", name: "Two Pair", multiplier: 2 };
+    return createResult("two_pair");
   }
 
-  const hasJacksOrBetterPair = Object.entries(counts).some(
-    ([val, count]) => Number(val) >= 11 && count === 2,
-  );
-
-  if (hasJacksOrBetterPair) {
-    return { rank: "jacks_or_better", name: "Jacks or Better", multiplier: 0 };
+  if (frequencies[0] === 2) {
+    const pairValue = Number(
+      Object.keys(counts).find((k) => counts[Number(k)] === 2),
+    );
+    if (pairValue >= 11) {
+      return createResult("jacks_or_better");
+    }
   }
 
-  return { rank: "high_card", name: "High Card", multiplier: 0 };
+  return createResult("high_card");
 }
