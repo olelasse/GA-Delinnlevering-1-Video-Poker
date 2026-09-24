@@ -1,0 +1,122 @@
+.container {
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.gameHeading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: var(--color-surface);
+  color: var(--color-text-dark);
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-accent);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.topBarActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.toggleTableBtn {
+  background-color: var(--color-header-bg);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.toggleTableBtn:hover {
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
+}
+
+.tableDrawer {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tableDrawerOpen {
+  grid-template-rows: 1fr;
+}
+
+.drawerInner {
+  overflow: hidden;
+  width: 100%;
+}
+
+.notice {
+  background-color: var(--color-surface);
+  color: #b91c1c;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.handSection {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.cardGrid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.primaryButton {
+  padding: 0.85rem 2.5rem;
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.primaryButton:disabled {
+  background-color: #4b5563;
+  color: #9ca3af;
+  cursor: not-allowed;
+}

@@ -1,0 +1,46 @@
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--color-surface);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--color-accent);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--color-text-dark);
+}
+
+.table th,
+.table td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.handHeader,
+.handName {
+  text-align: left;
+  font-weight: 600;
+}
+
+.activeColumn {
+  background-color: var(--color-highlight);
+  color: var(--color-header-bg);
+  font-weight: 700;
+}
+
+.activeRow {
+  background-color: #fde68a;
+  color: #78350f;
+  font-weight: 700;
+}
+
+.activeRow .activeColumn {
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
+}

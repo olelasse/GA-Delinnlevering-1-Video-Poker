@@ -1,0 +1,150 @@
+.container {
+  max-width: 940px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.title {
+  color: var(--color-text-main);
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.section {
+  background-color: var(--color-surface);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  color: var(--color-header-bg);
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.label {
+  color: var(--color-text-dark);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--color-text-dark);
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: 2px solid var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 0.85rem;
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.submitBtn:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.emptyText {
+  color: #4b5563;
+  margin: 0;
+}
+
+.playerCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #f9fafb;
+}
+
+.playerCard.active {
+  border-color: var(--color-accent);
+  background-color: var(--color-highlight);
+}
+
+.playerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.playerName {
+  color: var(--color-text-dark);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.playerCoins {
+  color: #4b5563;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.selectBtn {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--color-header-bg);
+  background-color: #ffffff;
+  color: var(--color-header-bg);
+  transition: all 0.15s ease;
+}
+
+.selectBtn:hover:not(:disabled) {
+  background-color: var(--color-highlight);
+}
+
+.selectBtn:disabled {
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
+  border-color: var(--color-accent);
+  cursor: default;
+}
