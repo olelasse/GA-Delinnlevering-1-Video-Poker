@@ -3,7 +3,7 @@ import styles from "./Rules.module.css";
 
 export default function Rules() {
   return (
-    <main>
+    <main className={styles.mainContainer}>
       <h2>Regler</h2>
 
       <p>Hender, og dets utbetalinger:</p>

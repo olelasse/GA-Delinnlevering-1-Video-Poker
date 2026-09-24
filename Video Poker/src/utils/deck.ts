@@ -37,14 +37,3 @@ export function shuffleDeck(deck: PlayingCard[]): PlayingCard[] {
 
   return shuffled;
 }
-
-if (import.meta.env.DEV) {
-  const fresh = createDeck();
-  const shuffled = shuffleDeck(fresh);
-
-  console.log("Kortstokk generert (52 kort):", fresh.length);
-  console.table(fresh.slice(0, 5));
-
-  console.log("Kortstokk stokket (første 5 kort):");
-  console.table(shuffled.slice(0, 5));
-}
